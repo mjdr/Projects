@@ -24,8 +24,8 @@ import com.api.fotki.PhotoManager;
 
 public class YandexPhotoManager implements PhotoManager {
 
-	private String login = "misterjdr";
-	private static String log = "73fc520bdf6349cdb1009489d0e09f2d";
+	private String login = "";
+	private static String log = "";
 	private static Map<String,String>albums = new HashMap<>();
 	
 	private HttpURLConnection conn;
