@@ -1,14 +1,10 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -19,6 +15,12 @@ import javax.swing.Timer;
 
 public class ImageProcess extends JComponent{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3418389910373808156L;
+
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) 
 	{
 		JFrame f = new JFrame();
@@ -69,8 +71,8 @@ public class ImageProcess extends JComponent{
 	void init() throws Exception
 	{
 		
-		int j = 1;
-		/*for(int i = 0;i < 5;i++)
+		/*int j = 1;
+		for(int i = 0;i < 5;i++)
 		{
 			ps[i] = new Slider.Point(
 					300 + 250 * (float)Math.cos(2 * 3.141592/ps.length * (j % (ps.length))),

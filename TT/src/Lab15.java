@@ -10,6 +10,11 @@ import javax.swing.JPanel;
 public class Lab15 extends JPanel
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static void main(String[] args) 
 	{
 		JFrame f = new JFrame("Lab15");

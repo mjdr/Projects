@@ -23,7 +23,6 @@ public class Lab7
 		double[] coords = new double[]{x , y};
 		double[] grad;
 		double z;
-		double k = 0.01;
 		
 		do
 		{
