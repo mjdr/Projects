@@ -5,7 +5,9 @@ import java.awt.image.BufferedImage;
 
 public class Slider 
 {
-	public enum SType { LINER, CIRCLE,BIEZIER,SPLINE};
+	public enum SType {LINER, CIRCLE,BIEZIER,SPLINE};
+	
+	private static final int EMPTY_CELL = Float.floatToIntBits(Float.MAX_VALUE);
 	
 	private float radius;
 	private Point[] points;
@@ -20,9 +22,6 @@ public class Slider
 	private int colorR;
 	private int colorG;
 	private int colorB;
-	
-	private static final int EMPTY_CELL = Float.floatToIntBits(Float.MAX_VALUE);
-	
 	
 	public Slider(Point[] points ,float r , SType type) 
 	{
@@ -42,7 +41,6 @@ public class Slider
 		
 		
 	}
-	
 	public void preRender()
 	{
 		float 
@@ -74,7 +72,6 @@ public class Slider
 		
 		if(type == SType.LINER)
 		{
-			
 			for(int i = 1;i < points.length;i++)
 			{
 				renderLine(
@@ -82,19 +79,15 @@ public class Slider
 						points[i - 1].y - offset.y, 
 						points[i].x - offset.x, 
 						points[i].y - offset.y, 
-						radius , buffer);
+						radius);
 			}
 			for(Point p : points)
-				renderCircle(p.x - offset.x, p.y - offset.y , radius, buffer);
-			texturing(buffer);
-			
+				renderCircle(p.x - offset.x, p.y - offset.y , radius);
+			texturing();
 			return;
 		}
-		
-		
 	}
-	
-	private void renderCircle(float rx , float ry , float r , BufferedImage b)
+	private void renderCircle(float rx , float ry , float r)
 	{
 		int sx = (int)(rx - r - 1);
 		int ex = (int)(rx + r + 1);
@@ -109,13 +102,13 @@ public class Slider
 				tmp = (float)Math.sqrt((x - rx) * (x - rx) + (y - ry) * (y - ry));
 				if(tmp < r)
 				{
-					val = Float.intBitsToFloat(b.getRGB(x, y));
+					val = Float.intBitsToFloat(buffer.getRGB(x, y));
 					if(val > tmp)
-						b.setRGB(x, y, Float.floatToIntBits(tmp));
+						buffer.setRGB(x, y, Float.floatToIntBits(tmp));
 				}
 			}
 	}
-	private void renderLine(float x1,float y1,float x2,float y2,float r , BufferedImage buff)
+	private void renderLine(float x1,float y1,float x2,float y2,float r)
 	{
 		float a = y1 - y2;
 		float b = x2 - x1;
@@ -131,8 +124,8 @@ public class Slider
 		float tmp;
 		float absqrt = (float)Math.sqrt(a*a+b*b);
 		
-		for(int x = 0; x < buff.getWidth();x++)
-			for(int y = 0;y < buff.getHeight();y++)
+		for(int x = 0; x < buffer.getWidth();x++)
+			for(int y = 0;y < buffer.getHeight();y++)
 				if(inLine(a, b, c,absqrt, r, x, y))
 				{
 					c1 = -(a1 * x + b1 * y);
@@ -140,38 +133,37 @@ public class Slider
 					if(pX <= Math.max(x1, x2) && pX >= Math.min(x1, x2))
 					{
 						pY = -(a*c1-a1*c)/(a*b1-a1*b);
-						tmp = (float)Math.hypot(pX - x,pY - y);
-						if(tmp < Float.intBitsToFloat(buff.getRGB(x, y)))
-							buff.setRGB(x, y, Float.floatToIntBits(tmp));
+						if(pY <= Math.max(y1, y2) && pY >= Math.min(y1, y2))
+						{
+							tmp = (float)Math.hypot(pX - x,pY - y);
+							if(tmp < Float.intBitsToFloat(buffer.getRGB(x, y)))
+								buffer.setRGB(x, y, Float.floatToIntBits(tmp));
+						}
 					}
 			}
 		
 	}
 	private boolean inLine(float a , float b , float c, float absqrt ,float r , float x , float y)
 	{
-		return Math.abs(a*x+b*y+c)/absqrt <= r;
+		return Math.abs(a*x+b*y+c)/absqrt < r;
 	}
-	
-	private void texturing(BufferedImage b)
+	private void texturing()
 	{
 		float value;
 		int x;
 		int y;
-		for(int i = 0;i < b.getHeight()*b.getWidth();i++)
+		for(int i = 0;i < buffer.getHeight()*buffer.getWidth();i++)
 		{
 			x = i % buffer.getWidth();
 			y = i / buffer.getWidth();
 			
-			value = Float.intBitsToFloat(b.getRGB(x , y));
+			value = Float.intBitsToFloat(buffer.getRGB(x , y));
 			if(value <= radius && value != EMPTY_CELL)
-				b.setRGB(x, y, color(value/radius));
+				buffer.setRGB(x, y, color(value/radius));
 			else
-				b.setRGB(x, y, 0);
-				
-				
+				buffer.setRGB(x, y, 0);	
 		}
 	}
-	
 	int color(float x)
 	{
 		int r = 0;
@@ -215,28 +207,24 @@ public class Slider
 			b = 0;
 			a = (int)(155*(0.5F - 5*(x - 0.9F)));
 		}
-		
 		return (a << 24) | (r << 16) | (g << 8) | b;
 		
 	}
-	
 	int range(float min , float max,float x)
 	{
 		return (int)(min + (max - min) * x);
 	}
-	
 	public void render(Graphics g)
 	{
 		g.drawImage(buffer,(int)offset.x,(int) offset.y,null);
 	}
-	
 	public int getSize()
 	{
 		int size = 0;
 
 		size += points.length * 3 * 4;
 		if(buffer != null)
-			size += buffer.getWidth() * buffer.getHeight()* 4;
+			size += buffer.getWidth() * buffer.getHeight()*4;
 		return size;
 	}
 	public int getBufferWidth()

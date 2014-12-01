@@ -36,7 +36,7 @@ public class ImageProcess extends JComponent{
 	BufferedImage output;
 
 	Slider s;
-	Slider.Point[] ps = new Slider.Point[2];
+	Slider.Point[] ps = new Slider.Point[6];
 	
 	Timer update = new Timer(300, new ActionListener() {
 		
@@ -71,17 +71,17 @@ public class ImageProcess extends JComponent{
 	void init() throws Exception
 	{
 		
-		/*int j = 1;
-		for(int i = 0;i < 5;i++)
-		{
+		int j = 1;
+		for(int i = 0;i < 6;i++)
+		{j+=2;
 			ps[i] = new Slider.Point(
-					300 + 250 * (float)Math.cos(2 * 3.141592/ps.length * (j % (ps.length))),
-					300 + 250 * (float)Math.sin(2 * 3.141592/ps.length * (j % (ps.length))));
-			j+=2;
-		}*/
+					300 + 250 * (float)Math.cos(2 * 3.141592/ps.length * (j % (ps.length - 1))),
+					300 + 250 * (float)Math.sin(2 * 3.141592/ps.length * (j % (ps.length - 1))));
+			
+		}
 		
-		ps[1] = new Slider.Point(300, 150);
-		ps[0] = new Slider.Point(500, 150);
+		//ps[1] = new Slider.Point(300, 150);
+		//ps[0] = new Slider.Point(500, 150);
 		
 		input = ImageIO.read(new File("C:/Users/Бог/Desktop/шьпы/nozaki-kun.jpeg"));
 		
@@ -100,12 +100,6 @@ public class ImageProcess extends JComponent{
 	@Override
 	public void paint(Graphics g) 
 	{
-		
-		
-		ps[1].y++;
-		s.preRender();
-		System.out.println(ps[1].y);
-		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		g.drawImage(output,0,0,800,600,null);
