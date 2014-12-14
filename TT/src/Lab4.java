@@ -135,13 +135,13 @@ public class Lab4
 	{
 		//System.out.println("	"+bSearch(0,-0.2F, 0.5F, 1E-9F));
 		//System.out.println("	"+hordSearch(0,-0.2F, 0.5F, 1E-9F));
-		System.out.println("	"+searchSecant(5F, 6F, 1E-6F));
-		System.out.println("	"+searchNewtonRawsa(5, 1E-6F));
+		//System.out.println("	"+searchSecant(5F, 6F, 1E-6F));
+		//System.out.println("	"+searchNewtonRawsa(5, 1E-6F));
 		try{
-		System.out.println("	"+simpleIterations1(0, 1E-6F));
+		System.out.println("	"+simpleIterations1(4, 1E-6F));
 		}catch(Exception e){e.printStackTrace();}
 		try{
-		System.out.println("	"+simpleIterations2(0, 1E-3F));
+		System.out.println("	"+simpleIterations2(4, 1E-3F));
 		}catch(Exception e){e.printStackTrace();}
 	}
 

@@ -75,8 +75,8 @@ public class ImageProcess extends JComponent{
 		for(int i = 0;i < 6;i++)
 		{j+=2;
 			ps[i] = new Slider.Point(
-					300 + 250 * (float)Math.cos(2 * 3.141592/ps.length * (j % (ps.length - 1))),
-					300 + 250 * (float)Math.sin(2 * 3.141592/ps.length * (j % (ps.length - 1))));
+					300 + 250 * (float)Math.cos(1.6*Math.PI / 2 + 2 * 3.141592/ps.length * (j % (ps.length - 1))),
+					300 + 250 * (float)Math.sin(1.6*Math.PI / 2 + 2 * 3.141592/ps.length * (j % (ps.length - 1))));
 			
 		}
 		

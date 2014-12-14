@@ -29,14 +29,23 @@ public class Lab15 extends JPanel
 	
 	public Lab15() 
 	{
-		points = new Float[4];
+		float sx = .1F;
+		float ex = 3F;
+		float x;
+		
+		points = new Float[5];
 		for(int i = 0;i < points.length;i++)
-		points[i] = new Point2D.Float((1.0F * i/(points.length - 1)*(float)Math.PI/2), func((1.0F * i/(points.length - 1)*(float)Math.PI/2)));
+		{
+			//points[i] = new Point2D.Float((i + 1),func((i + 1)));
+			x = sx + (ex - sx) * (float)Math.cos((1.0F*(points.length - 1 - i))/points.length * Math.PI/2);
+			points[i] = new Float(x, func(x));
+			System.out.println("X:"+x);
+		}
 	}
 	
 	float func(float x)
 	{
-		return (float)Math.sin(x);
+		return (float)Math.log(x);
 	}
 	
 	
@@ -58,7 +67,7 @@ public class Lab15 extends JPanel
 	}
 	float err(float x , Point2D.Float[] ps)
 	{
-		return 1000F * (func(x) - L(x , ps));
+		return 100F * (func(x) - L(x , ps));
 	}
 	
 	@Override
