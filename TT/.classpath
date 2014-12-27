@@ -4,5 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="libs/httpclient-4.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/jid3lib-0.5.4.jar"/>
+	<classpathentry kind="lib" path="libs/commons-math3-3.3.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/TT/libs/commons-math3-3.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
