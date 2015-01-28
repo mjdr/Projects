@@ -12,10 +12,10 @@ public class AnidubAPITest
 {
 	public static void main(String[] args) throws IOException
 	{
-		PageParser parser = Anidub.Tracker.getParser();
+		PageParser parser = Anidub.Online.getParser();
 		Page page = parser.getPage(1);
 		
-		for(Post p : page)
-			System.out.println(p);
+		//for(Post p : page)
+			//System.out.println(p);
 	}
 }
