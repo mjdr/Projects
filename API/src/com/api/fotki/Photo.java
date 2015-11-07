@@ -10,6 +10,7 @@ public class Photo
 	private static Map<String , String>types;//<Format , MIME-type>
 	private int[] widthes;
 	private String name;
+	private String albom;
 	private int id;
 	private Type place;
 	private String[] urls;
@@ -22,7 +23,7 @@ public class Photo
 		types = new HashMap<String, String>();
 		
 		types.put("jpeg", "image/jpeg");		
-		types.put("jpg", "image/jpseg");		
+		types.put("jpg", "image/jpeg");		
 		types.put("png", "image/png");		
 		types.put("bmp", "image/bmp");
 	}
@@ -58,6 +59,13 @@ public class Photo
 	public PhotoManager getParent() {
 		return parent;
 	}
+	public String getAlbom() {
+		return albom;
+	}
+	public void setAlbom(String albom) 
+	{
+		this.albom = albom;
+	}
 	public void setWidthes(int[] widthes) {
 		this.widthes = widthes;
 	}
@@ -82,10 +90,10 @@ public class Photo
 	public void setParent(PhotoManager parent) {
 		this.parent = parent;
 	}
-	public boolean loadOnServer(String dir) throws IOException
+	public boolean loadOnServer() throws IOException
 	{
 		if(this.place == Type.LOCAL)
-			return parent.loadOnServer(this , dir);
+			return parent.loadOnServer(this);
 		return false;
 	}
 	
@@ -101,11 +109,12 @@ public class Photo
 		p.place = Type.LINK;
 		return p;
 	}
-	public static Photo createPhoto(String name,String contentType ,byte[] data, PhotoManager pm)
+	public static Photo createPhoto(String name,String contentType ,byte[] data,String albom, PhotoManager pm)
 	{
 		Photo p = new Photo();
 		p.name = name;
 		p.parent = pm;
+		p.albom = albom;
 		p.data = data;
 		p.place = Type.LOCAL;
 		p.contentTypes = new String[]{contentType};

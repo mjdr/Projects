@@ -1,0 +1,28 @@
+void main()
+{
+ Sprite sp1("bg.jpg");
+ Animation anim1("bg_%d",5);
+ Vector2 pos(0,0);
+ Range<Vector3> colorChange = {[20,30,55]...[50,100,99]};
+ Boolean bool;
+ String url;
+ Number num = 0.022+22-66/200*754;
+ if(bool && num == 5 || num2 > 4)
+ {
+  sp1.additionBlending(true);
+ }
+ for(Number i = 0;i < 100;i++)
+ {
+  sp1.moveBy(x=i*10,y=0);
+ }
+ sp1.moveTo();
+}
+
+Sprite createSprite(String path)
+{
+ return jcall("Sprite.newInstance",path);
+}
+Sprite createAnimation(String path,Number number)
+{
+ return jcall("Animation.newInstance", path, number);
+}
