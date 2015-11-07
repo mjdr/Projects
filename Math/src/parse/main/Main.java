@@ -16,7 +16,7 @@ public class Main
 {
 	public static void main(String[] args) 
 	{
-		String program = "sin(2*pi/x)/2";
+		String program = "2^(sin(x))";
 		
 		
 		
