@@ -1,0 +1,4 @@
+use std
+
+
+std_print(!true);

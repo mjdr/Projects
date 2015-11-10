@@ -74,10 +74,6 @@ public class Parser
 				read();
 				result = new BinaryOperation('/', result, parseUnari());
 			}
-			else if(peek().getType() == Type.POW){
-				read();
-				result = new BinaryOperation('^', result, parseUnari());
-			}
 			else
 				break;
 		}
