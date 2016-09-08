@@ -1,4 +1,6 @@
 use std
+use newpack as p
+use newp
 
+echo p_K;
 
-std_print(!true);
