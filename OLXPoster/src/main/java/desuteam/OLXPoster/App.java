@@ -97,10 +97,6 @@ public class App {
     	
     	if(ArrayUtils.contains(args, "-add")) mainLoop();
     	
-    	if(numOrders > 10){
-    		JOptionPane.showMessageDialog(null, "Пробная версия");
-    		System.exit(0);
-    	}
 		
 	}
     
@@ -175,21 +171,31 @@ public class App {
 		
     	browser.openBrowser();
     	browser.login(freeUsersList.get(currentUser));
-    	
+    	if(!inList(links, freeUsersList.get(currentUser).getLogin()))
+    		links.add(new DateLink(freeUsersList.get(currentUser).getLogin(), new Date()));
+		try {
+			Utils.writeLinks(new File("history.csv"), links);
+		} catch (IOException e) { e.printStackTrace(); }
+		
     	
     	for(int i = lastProgress == -1?0 : lastProgress;i < numOrders;i++){
     		if(orderPerUser >= 5){
-    			links.add(new DateLink(freeUsersList.get(currentUser).getLogin(), new Date()));
-    			try {
-        			Utils.writeLinks(new File("history.csv"), links);
-        		} catch (IOException e) { e.printStackTrace(); }
     			
     			browser.closeBrowser();
     			browser.openBrowser();
     			currentUser++;
     			orderPerUser = 0;
     			browser.login(freeUsersList.get(currentUser));
+    	    	if(!inList(links, freeUsersList.get(currentUser).getLogin()))
+    	    		links.add(new DateLink(freeUsersList.get(currentUser).getLogin(), new Date()));
+    			try {
+        			Utils.writeLinks(new File("history.csv"), links);
+        		} catch (IOException e) { e.printStackTrace(); }
+    			
     		}
+    		else
+    			orderPerUser++;
+    		
     		browser.post(
 	    			titles.get(i),
 	    			prices.get(i),
@@ -200,6 +206,13 @@ public class App {
     		try { Utils.writeTaskProgress(i); } catch (IOException e) {e.printStackTrace();}
 	    	sleep(delais.get(currentDelay) * 1000L);
     	}
+    	if(!inList(links, freeUsersList.get(currentUser).getLogin()))
+    		links.add(new DateLink(freeUsersList.get(currentUser).getLogin(), new Date()));
+		try {
+			Utils.writeLinks(new File("history.csv"), links);
+		} catch (IOException e) { e.printStackTrace(); }
+		
+		
     	
     	try {Utils.writeTaskProgress(-1);} catch (IOException e) {e.printStackTrace();}
     	
@@ -233,6 +246,12 @@ public class App {
     	
     }
     
+    private boolean inList(List<DateLink> links, String login){
+    	for(DateLink link : links)
+    		if(link.getLogin().equals(login))
+    			return true;
+    	return false;
+    }
     
     private void sleep(long millisec){
     	try {Thread.sleep(millisec);} catch (InterruptedException e) {e.printStackTrace();}

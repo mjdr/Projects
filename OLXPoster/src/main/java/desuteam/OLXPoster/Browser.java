@@ -54,8 +54,9 @@ public class Browser {
 	    			"//*[@id=\"category-44\"]/div[2]/div[2]/div/ul/li[2]/a/span[1]"
 	    			);
 	    	
+	    	sleep(2000);
 	    	//Марка телефона
-	    	clickByXpath("//*[@id=\"targetparam113\"]/dt/a","//*[@id=\"targetparam113\"]/dd/ul/li[36]/a");
+	    	clickByXpath(1000,"//*[@id=\"targetparam113\"]/dt/a","//*[@id=\"targetparam113\"]/dd/ul/li[36]/a");
 	    	
 	    	//Цена
 	    	driver.findElement(By.xpath("//*[@id=\"parameter-div-price\"]/div[2]/div/div[1]/p[3]/input")).sendKeys(price+"");
@@ -86,8 +87,12 @@ public class Browser {
 	    }
 	    
 	public void clickByXpath(String... paths){
+		clickByXpath(0,paths);
+	}
+	public void clickByXpath(int wait,String... paths){
 	    	for(String path : paths){
 	    		waitForElement(path);
+	    		sleep(wait);
 	        	driver.findElement(By.xpath(path)).click();
 	    	}
 	    }
