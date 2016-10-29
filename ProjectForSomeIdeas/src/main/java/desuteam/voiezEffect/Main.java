@@ -1,6 +1,5 @@
 package desuteam.voiezEffect;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,11 +30,11 @@ public class Main extends JPanel implements ActionListener {
 	BufferedImage combined;
 	WeightMap map;
 	Timer timer = new Timer(0, this);
-	double time = 0;
+	double time = -2;
 	
 	public Main() {
 		
-		map = new WeightMap(9,0.5);
+		map = new WeightMap(10,0.5);
 		
 		try {
 			tex = ImageIO.read(new File("res/bg2.jpg"));
@@ -48,7 +47,7 @@ public class Main extends JPanel implements ActionListener {
 		combined = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
 		combinedImages(map,0);
 		
-		//map.print();
+		map.print();
 		
 		timer.start();
 	}
@@ -70,7 +69,7 @@ public class Main extends JPanel implements ActionListener {
 
 		for(int x = 0;x < 512;x++)
 			for(int y = 0;y < 512;y++){
-				double dt = t - map.getAltitude(x, y);
+				double dt = t - map.getAltitude(2*x, 2*y);
 				int color;
 				int texColor1 = tex2.getRGB(x, y);
 				int texColor2 = 0x00FFFFFF;
@@ -121,7 +120,7 @@ public class Main extends JPanel implements ActionListener {
 		//return (f2(t - 0.03) + f2(t - 0.02) + f2(t) + f2(t + 0.02) + f2(t + 0.03))/5;
 	}
 	
-	private double f2(double t){
+	private double f2(double t) {
 		if(t < 0) t = 0;
 		if(t > 1) t = 1;
 		int n = (int)(t * 3);
@@ -130,7 +129,7 @@ public class Main extends JPanel implements ActionListener {
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		time += 0.005;
+		time += 0.01;
 		
 		combinedImages(map,time);
 		repaint();

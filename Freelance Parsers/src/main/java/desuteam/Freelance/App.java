@@ -8,6 +8,6 @@ public class App
 {
     public static void main( String[] args ){
     	Proxies.initDefault();
-    	Proxies.setNextProxy();
+    	Proxies.setNextProxy(true);
     }
 }

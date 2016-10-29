@@ -22,6 +22,13 @@ public class Proxies {
 	
 	private static void initDefaultProxies(){
 
+		addProxy("192.151.159.115:8118");
+		addProxy("1.162.59.138:8080");
+		addProxy("47.89.53.92:3128");
+		addProxy("219.141.225.107:80");
+		addProxy("178.57.115.124:8080");
+		addProxy("189.20.255.211:8080");
+		addProxy("61.227.113.73:8080");
 		addProxy("64.33.135.190","8080");
 		addProxy("13.91.254.82","8080");
 		addProxy("162.144.57.157","80");
@@ -80,22 +87,29 @@ public class Proxies {
 		
 	}
 	
-	
+	public static void addProxy(String ip){
+		String[] data = ip.split(":");
+		addProxy(data[0], data[1]);
+	}
 	public static void addProxy(String host, String port){
 		allProxies.add(new Proxy(host, port));
 	}
 	
-	
+	public static void rem(){
+		testedProxies.remove(currentIndex);
+		System.out.println("			[Size: " + testedProxiesSize() + "]");
+	}
 	public static void testProxies(){
 		System.out.println("Proxies test:");
 		currentIndex = 0;
 		testedProxies.clear();
 		
 		for(Proxy proxy : allProxies){
-			System.out.print(proxy + "	");
+			System.out.print(proxy + "		");
 			try {
 				if(testProxy(proxy)){ 
-					System.out.println("OK");
+					int ping = testPingTime(proxy);
+					System.out.println("OK[" + ping+"ms]");
 					testedProxies.add(proxy); 
 				}
 				else
@@ -107,18 +121,32 @@ public class Proxies {
 	private static boolean testProxy(Proxy proxy) throws IOException{
 		return InetAddress.getByName(proxy.host).isReachable(1000);
 	}
+	private static int testPingTime(Proxy proxy) throws IOException{
+		int allTime = 0;
+		
+		for(int i = 0;i < 1;i++){
+			long time = System.nanoTime();
+			InetAddress.getByName(proxy.host).isReachable(3000);
+			allTime += (int)((System.nanoTime() - time)/1000000L);
+		}
+		return allTime/1;
+	}
 	
 	public static int testedProxiesSize(){
 		return testedProxies.size();
 	}
 	
-	public static void setNextProxy(){
+	public static void setNextProxy(boolean print){
 		if(testedProxiesSize() == 0) return;
 		if(currentIndex >= testedProxiesSize())
 			currentIndex = 0;
+		
+		if(print)
+			System.out.println("[Set proxy: "+testedProxies.get(currentIndex)+" ]");
 		System.setProperty("java.net.useSystemProxies", "true");
         System.setProperty("http.proxyHost", testedProxies.get(currentIndex).host);
         System.setProperty("http.proxyPort", testedProxies.get(currentIndex).port);
+        currentIndex++;
 	}
 	
 	private static class Proxy {
@@ -136,5 +164,16 @@ public class Proxies {
 		}
 		
 	}
+
+	public static void removeCurrent() {
+		allProxies.remove(testedProxies.get(currentIndex - 1));
+		if(allProxies.size() <= 5){
+			allProxies.clear();
+			initDefault();
+			testProxies();
+		}
+		else
+			System.out.println("[Proxy list size: "+allProxies.size()+"]");
+	}	
 	
 }

@@ -2,7 +2,7 @@ package desuteam.com.times10;
 
 public class Event {
 	String name;
-	String info;
+	String info = "";
 	String link;
 	
 	public Event(String name, String link) {
@@ -10,5 +10,11 @@ public class Event {
 		this.name = name;
 		this.link = link;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%50s		%s", name,link);
+	}
+	
 	
 }
