@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<title>Quick template</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<style>
+			.element{
+				margin:20px;
+				border: 1px solid black;
+			}
+			#updatedContent{
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="updatedContent"></div>
+	</body>
+	<script>
+	
+	var content;
+	jQuery(document).ready(function(){
+		content = jQuery("#updatedContent");
+		setInterval(update, 500);
+	});
+	
+	function update(){
+		jQuery.post({
+			url:"/%s",
+			success:function(response){
+				content.empty();
+				for(var i = 0;i < response.length;i++)
+					content.append(createQuickElement(response[i]));
+				
+			},
+			error:function(response){
+			}
+		});
+	}
+	
+	function createQuickElement(data){
+		if(data.type == "Image")
+			 return createQuickImageElement(data);
+		if(data.type == "ProgressBar")
+			 return createQuickProgressBarElement(data);
+		if(data.type == "TextField")
+			 return createQuickTextFieldElement(data);
+	}
+	
+	function createQuickImageElement(data){
+		var divTag = document.createElement("div");
+		var imgTag = document.createElement("img");
+		divTag.className = "element";
+		divTag.appendChild(imgTag);
+		imgTag.src = data.src;
+		return divTag;
+	}
+	function createQuickProgressBarElement(data){
+		var divTag = document.createElement("div");
+		var nameTag = document.createElement("div");
+		var progressTag = document.createElement("progress");
+		divTag.className = "element";
+		divTag.appendChild(nameTag);
+		divTag.appendChild(progressTag);
+		nameTag.innerText = data.name;
+		progressTag.value = data.currentValue;
+		progressTag.max = data.maxValue;
+		return divTag;
+	}
+	function createQuickTextFieldElement(data){
+		var divTag = document.createElement("div");
+		divTag.className = "element";
+		divTag.innerText = data.text;
+		return divTag;
+	}
+	
+	</script>
+</html>

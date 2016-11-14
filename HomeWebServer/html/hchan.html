@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title>Simple page</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="ajax-data">
+		<div>Page</div>
+		<div id="page">0</div>
+		<div>Number</div>
+		<div id="number">0</div>
+		<div>Title</div>
+		<div id="title">0</div>
+		<div>Image count</div>
+		<div id="imageCount">0</div>
+		</div>
+		<div>Image</div>
+		<img id="poster">
+		
+		<script>
+		
+			setInterval(function(){
+				jQuery.post({
+					url:"/hchan_parser",
+					success:function(response){
+						var data =  jQuery.parseJSON(response);
+						jQuery("#page").text(data.page);
+						jQuery("#number").text(data.number);
+						jQuery("#title").text(data.title);
+						jQuery("#poster").attr("src",data.poster);
+						jQuery("#imageCount").text(data.image);
+					},
+					error:function(response){
+						console.log(response);
+					}
+				});
+			},5000);
+		
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>Simple page</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	</head>
+	<body>
+		<img id="bg" style="position: absolute;top:0px;left:0px;">
+		<canvas width="800" height="450" id="myCanvas" style="position: absolute;top:0px;left:0px;"></canvas>
+		
+		<script>
+		
+			var canvas,ctx;
+			jQuery(document).ready(function(){
+				canvas = document.getElementById("myCanvas");
+				ctx = canvas.getContext("2d");
+				updateMouse();
+				updateImage();
+			});
+			function updateMouse(){
+				jQuery.post({
+					url:"/mouse_handler",
+					data:{
+						type:"mouse",
+					},
+					success:function(response){
+						var data =  jQuery.parseJSON(response);
+						
+						ctx.clearRect(0,0,1600,900);
+						ctx.fillStyle="red";
+						ctx.beginPath();
+						ctx.arc(data.x, data.y,10,0,6.28);
+						ctx.fill();
+						setTimeout(updateMouse,0);
+						
+					},
+					error:function(response){
+						console.log(response);
+						setTimeout(updateMouse,0);
+					}
+				});
+			}
+			function updateImage(){
+				jQuery.post({
+					url:"/mouse_handler",
+					data:{
+						type:"image",
+					},
+					success:function(response){
+						var data =  jQuery.parseJSON(response);
+						
+						jQuery("#bg").attr("src",data.imageData);
+						
+						setTimeout(updateImage,0);
+						
+					},
+					error:function(response){
+						console.log(response);
+						setTimeout(updateImage,1000);
+					}
+				});
+			}
+		
+			
+		</script>
+	</body>
+</html>

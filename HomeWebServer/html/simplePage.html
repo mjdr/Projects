@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>Simple page</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	</head>
+	<body>
+		<div style="border:1px solid red;">Hello from Java</div>
+		<div id="ajax-data"></div>
+		
+		<script>
+		
+			setInterval(function(){
+				jQuery.post({
+					url:"/test",
+					success:function(response){
+						jQuery("#ajax-data").text(response);
+					},
+					error:function(response){
+						console.log(response);
+					}
+				});
+			},300);
+		
+			
+		</script>
+	</body>
+</html>
