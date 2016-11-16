@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import desuteam.webServer.Request;
+import desuteam.webServer.handlers.ErrorHandler;
 import desuteam.webServer.handlers.TestHandler;
 import desuteam.webServer.handlers.audio.AudioBrodcast;
 import desuteam.webServer.handlers.mouseHandler.MouseHandler;
@@ -20,6 +21,7 @@ public class HandlerManager {
 		webHandlers.add(new TestHandler());
 		webHandlers.add(new MouseHandler());
 		webHandlers.add(new AudioBrodcast());
+		webHandlers.add(new ErrorHandler("error_log.txt"));
 	}
 
 	public static void handleRequest(Request request) {
