@@ -1,6 +1,14 @@
 use std
+use math
 use newpack as p
-use newp
 
-echo p_K;
+
+Number i = 10;
+
+while(i > 0){
+	echo i + " ";
+	echo math_PI*i/10;
+	echo "\n";
+	i = i - 1;
+}
 
